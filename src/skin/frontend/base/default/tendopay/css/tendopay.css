@@ -1,0 +1,17 @@
+/* TendoPay info in checkout */
+#what-is-tendopay-trigger, .about_tendopay {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    float: none !important;
+}
+#tendopay-logo {
+    height: 32px;
+    width: 32px;
+    float: left;
+    margin-right: 10px;
+}
+/* By default, only show the callout text on the default checkout */
+.checkout-onepage-index #tendopay-callout {
+    display: block;
+    margin-left: 0;
+}

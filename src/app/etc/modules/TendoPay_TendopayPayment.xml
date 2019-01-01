@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <TendoPay_TendopayPayment>
+            <active>true</active>
+            <codePool>community</codePool>
+        </TendoPay_TendopayPayment>
+    </modules>
+</config> 
