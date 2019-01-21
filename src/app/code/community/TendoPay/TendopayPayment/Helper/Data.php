@@ -1,5 +1,4 @@
 <?php
-
 use GuzzleHttp\Client;
 require_once(Mage::getModuleDir("tendo_vendor", "TendoPay_TendopayPayment") . DS . 'tendo_vendor/autoload.php');
 
@@ -133,7 +132,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_base_api_url()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
+        return self::isSandboxEnabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
     }
 
     /**
@@ -143,7 +142,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_redirect_uri()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_REDIRECT_URI : self::REDIRECT_URI;
+        return self::isSandboxEnabled() ? self::SANDBOX_REDIRECT_URI : self::REDIRECT_URI;
     }
 
     /**
@@ -153,7 +152,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_view_uri_pattern()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_VIEW_URI_PATTERN : self::VIEW_URI_PATTERN;
+        return self::isSandboxEnabled() ? self::SANDBOX_VIEW_URI_PATTERN : self::VIEW_URI_PATTERN;
     }
 
     /**
@@ -163,7 +162,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_verification_endpoint_uri()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_VERIFICATION_ENDPOINT_URI : self::VERIFICATION_ENDPOINT_URI;
+        return self::isSandboxEnabled() ? self::SANDBOX_VERIFICATION_ENDPOINT_URI : self::VERIFICATION_ENDPOINT_URI;
     }
 
     /**
@@ -173,7 +172,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_authorization_endpoint_uri()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_AUTHORIZATION_ENDPOINT_URI : self::AUTHORIZATION_ENDPOINT_URI;
+        return self::isSandboxEnabled() ? self::SANDBOX_AUTHORIZATION_ENDPOINT_URI : self::AUTHORIZATION_ENDPOINT_URI;
     }
 
     /**
@@ -183,7 +182,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_description_endpoint_uri()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_DESCRIPTION_ENDPOINT_URI : self::DESCRIPTION_ENDPOINT_URI;
+        return self::isSandboxEnabled() ? self::SANDBOX_DESCRIPTION_ENDPOINT_URI : self::DESCRIPTION_ENDPOINT_URI;
     }
 
     /**
@@ -193,16 +192,18 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public static function get_bearer_token_endpoint_uri()
     {
-        return self::is_sandbox_enabled() ? self::SANDBOX_BEARER_TOKEN_ENDPOINT_URI : self::BEARER_TOKEN_ENDPOINT_URI;
+        return self::isSandboxEnabled() ? self::SANDBOX_BEARER_TOKEN_ENDPOINT_URI : self::BEARER_TOKEN_ENDPOINT_URI;
     }
 
     /**
      *
      * @return bool true if sandbox is enabled
      */
-    private static function is_sandbox_enabled()
+    public function isSandboxEnabled()
     {
-        return true;
+        $base = self::getTendopayStandardModel();
+        $is_sanbox_enabled = self::getConfigValues($base->getAPIEnabledField());
+        return $is_sanbox_enabled;
     }
 
     /**
@@ -376,6 +377,11 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
         Mage::throwException($this->__($message));
     }
 
+    /**
+     * @param $message
+     * @throws Mage_Core_Exception
+     * @throws Afterpay_Afterpay_Exception
+     */
     public function throwException($message)
     {
         throw Mage::exception('TendoPay_TendopayPayment', $message);
