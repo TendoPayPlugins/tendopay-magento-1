@@ -1,4 +1,14 @@
-/* TendoPay info in checkout */
+/**
+ * TendoPay
+ * TendoPay info in checkout
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ *
+ * @category   TendoPay
+ * @package    TendoPay_TendopayPayment
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html
+ */
 #what-is-tendopay-trigger, .about_tendopay {
     margin-top: 0 !important;
     margin-left: 0 !important;
@@ -9,6 +19,10 @@
     width: 32px;
     float: left;
     margin-right: 10px;
+}
+dt:not(#dt_method_tendopay) #p_method_tendopay{
+    float: left;
+    margin: 10px 10px 0 0 ;
 }
 /* By default, only show the callout text on the default checkout */
 .checkout-onepage-index #tendopay-callout {

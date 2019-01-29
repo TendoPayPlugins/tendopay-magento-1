@@ -1,18 +1,73 @@
 <?php
+/**
+ * TendoPay
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ *
+ * @category   TendoPay
+ * @package    TendoPay_TendopayPayment
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
+/**
+ * Class TendoPay_TendopayPayment_Model_Standard
+ */
 class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_code = TendoPay_TendopayPayment_Helper_Data::METHOD_WPS;
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'tendopay/standard_form';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'tendopay/payment_info';
+
+    /**
+     * @var bool
+     */
     protected $_isInitializeNeeded = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal = false;
+
+    /**
+     * @var bool
+     */
     protected $_canUseForMultishipping = false;
 
+    /**
+     * @var bool
+     */
     protected $_isGateway = true;
+
+    /**
+     * @var bool
+     */
     protected $_canAuthorize = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapture = false;
+
+    /**
+     * @var bool
+     */
     protected $_canCapturePartial = false;
+
+    /**
+     * @var bool
+     */
     protected $_canRefund = false;
 
     /* Configuration fields */
@@ -37,8 +92,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     const TRUNCATE_SKU_LENGTH = 128;
 
     /**
-     * Get checkout session namespace
-     * @return Mage_Checkout_Model_Session
+     * @return mixed
      */
     public function getCheckout()
     {
@@ -46,8 +100,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * Get current quote
-     * @return Mage_Sales_Model_Quote
+     * @return mixed
      */
     public function getQuote()
     {
@@ -55,7 +108,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * @return Mage_Core_Helper_Abstract
+     * @return mixed
      */
     protected function helper()
     {
@@ -63,7 +116,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * @return false|Mage_Core_Model_Abstract
+     * @return mixed
      */
     public function getApiAdapter()
     {
@@ -142,61 +195,68 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
         return self::API_CLIENT_SECRET_CONFIG_FIELD;
     }
 
-    public function getStandardCheckoutFormFields($auth_token)
+    /**
+     * @param $authToken
+     * @return array
+     */
+    public function getStandardCheckoutFormFields($authToken)
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-        //$quoteId = $order['quote_id'];
 
-        $tendopay_helper_data = $this->helper();
-        $merchantId = $tendopay_helper_data->getConfigValues($this->getAPIMerchantIDConfigField());
+        $tendopayHelperData = $this->helper();
+        $merchantId = $tendopayHelperData->getConfigValues($this->getAPIMerchantIDConfigField());
         $store = Mage::app()->getStore();
 
-        $data = [
-            $tendopay_helper_data->getAmountParam() => (int)$order->getGrandTotal(),
-            $tendopay_helper_data->getAuthTokenParam() => $auth_token,
-            $tendopay_helper_data->getTendopayCustomerReferenceOne() => (string)$orderIncrementId,
-            $tendopay_helper_data->getTendopayCustomerReferencetwo() => "magento1_order_" . $orderIncrementId,
-            $tendopay_helper_data->getRedirectUrlParam() => $tendopay_helper_data->getRedirectUrl(),
-            $tendopay_helper_data->getVendorIdParam() => $merchantId,
-            $tendopay_helper_data->getVendorParam() => $store->getName(),
-            //"er" => $tendopay_helper_data->getCheckoutUrl()
-        ];
-        $redirect_args_hash = $tendopay_helper_data->calculate($data);
-        $data[$tendopay_helper_data->getHashParam()] = $redirect_args_hash;
-        $data["er"] = $tendopay_helper_data->getCheckoutUrl();
+        $data = array(
+            $tendopayHelperData->getAmountParam() => (int)$order->getGrandTotal(),
+            $tendopayHelperData->getAuthTokenParam() => $authToken,
+            $tendopayHelperData->getTendopayCustomerReferenceOne() => (string)$orderIncrementId,
+            $tendopayHelperData->getTendopayCustomerReferencetwo() => "magento1_order_" . $orderIncrementId,
+            $tendopayHelperData->getRedirectUrlParam() => $tendopayHelperData->getRedirectUrl(),
+            $tendopayHelperData->getVendorIdParam() => $merchantId,
+            $tendopayHelperData->getVendorParam() => $store->getName()
+        );
+        $redirectArgsHash = $tendopayHelperData->calculate($data);
+        $data[$tendopayHelperData->getHashParam()] = $redirectArgsHash;
+        $data["er"] = $tendopayHelperData->getCheckoutUrl();
         return $data;
     }
 
     /**
-     * Get current Order model from session
-     *
-     * @return Mage_Sales_Model_Order
+     * @return mixed
      */
     protected function getLastRealOrder()
     {
-        $tendopay_helper_data = $this->helper();
-        $session = $tendopay_helper_data->getCheckoutSession();
+        $tendopayHelperData = $this->helper();
+        $session = $tendopayHelperData->getCheckoutSession();
         $orderId = $session->getLastRealOrderId();
         $order = Mage::getModel('sales/order');
         if ($orderId) {
             $order->loadByIncrementId($orderId);
         }
+
         return $order;
     }
 
+    /**
+     * @return mixed
+     */
     public function getOrderPlaceRedirectUrl()
     {
         return Mage::getUrl('tendopay/standard/redirect', array('_secure' => true));
     }
 
+    /**
+     * @param $data
+     */
     public function process($data)
     {
         if ($data['cancel'] == 1) {
             $order = $this->getLastRealOrder();
             $order->getPayment()
                 ->setTransactionId(null)
-                ->setParentTransactionId(time())
+                ->setParentTransactionId(Mage::getSingleton('core/date')->gmtDate())
                 ->void();
             $message = 'Unable to process Payment';
             $order->registerCancellation($message)->save();
@@ -204,16 +264,17 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * Resetting the token the session
      * @return bool
      */
-    public function resetTransactionToken() {
-        $tendopay_helper_data = $this->helper();
+    public function resetTransactionToken()
+    {
+        $tendopayHelperData = $this->helper();
         Mage::getSingleton("checkout/session")->getQuote()->getPayment()->setData('tendopay_token', NULL)->save();
-        if( Mage::getEdition() == Mage::EDITION_ENTERPRISE ) {
-            $tendopay_helper_data->storeCreditSessionUnset();
-            $tendopay_helper_data->giftCardsSessionUnset();
+        if (Mage::getEdition() == Mage::EDITION_ENTERPRISE) {
+            $tendopayHelperData->storeCreditSessionUnset();
+            $tendopayHelperData->giftCardsSessionUnset();
         }
+
         return true;
     }
 }

@@ -1,5 +1,18 @@
 <?php
+/**
+ * TendoPay
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ *
+ * @category   TendoPay
+ * @package    TendoPay_TendopayPayment
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
+/**
+ * Class TendoPay_TendopayPayment_Block_Standard_Form
+ */
 class TendoPay_TendopayPayment_Block_Standard_Form extends Mage_Payment_Block_Form
 {
     /**
@@ -14,26 +27,29 @@ class TendoPay_TendopayPayment_Block_Standard_Form extends Mage_Payment_Block_Fo
     protected function _construct()
     {
         parent::_construct();
-        $tendopay_helper_data = Mage::helper('tendopay');
+        $tendopayHelperData = Mage::helper('tendopay');
         // logic borrowed from Mage_Paypal_Block_Standard_form
         $block = Mage::getConfig()->getBlockClassName('core/template');
         $block = new $block;
         $block->setTemplateHelper($this);
-        $block->setTemplate($tendopay_helper_data->getTendopayCheckoutTitle());
-        $this->setTemplate('tendopay_front/payment/redirect.phtml');
+        $block->setTemplate($tendopayHelperData->getTendopayCheckoutTitle());
+        $this->setTemplate('tendopay/payment/redirect.phtml');
         $this->setMethodTitle('')->setMethodLabelAfterHtml($block->toHtml());
     }
 
     /**
      * Payment method code getter
-     * @return string
+     * @return mixed
      */
     public function getMethodCode()
     {
-        $tendopay_helper_data = Mage::helper('tendopay');
-        return $tendopay_helper_data->getTendopayMethodCode();
+        $tendopayHelperData = Mage::helper('tendopay');
+        return $tendopayHelperData->getTendopayMethodCode();
     }
 
+    /**
+     * @return mixed
+     */
     public function getRedirectMessage()
     {
         if ($this->hasData('redirect_message')) {

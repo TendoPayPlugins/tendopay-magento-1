@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * TendoPay
  *
@@ -10,12 +9,7 @@
  * @package    TendoPay_TendopayPayment
  * @license    http://www.gnu.org/licenses/gpl-3.0.html
  */
--->
-<config>
-    <modules>
-        <TendoPay_TendopayPayment>
-            <active>true</active>
-            <codePool>community</codePool>
-        </TendoPay_TendopayPayment>
-    </modules>
-</config> 
+?>
+<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+    <li class="form-alt"><?php echo $this->getRedirectMessage(); ?></li>
+</ul>

@@ -1,29 +1,37 @@
 <?php
-set_include_path(get_include_path() . PATH_SEPARATOR . Mage::getBaseDir('lib') . DS . 'TendoPay' . DS . 'vendor');
+/**
+ * TendoPay
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ *
+ * @category   TendoPay
+ * @package    TendoPay_TendopayPayment
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 require_once(Mage::getBaseDir('lib') . DS . 'TendoPay' . DS . 'vendor' . DS . 'autoload.php');
 
+/**
+ * Class TendoPay_TendopayPayment_Helper_Data
+ */
 class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * @var string $bearer_token the bearer token requested in previous API calls. If it's null, it will be taken from
+     * @var string $bearerToken the bearer token requested in previous API calls. If it's null, it will be taken from
      * wordpress options. If it was null or expired in the options, it will be then requested from the API.
      */
-    private static $bearer_token;
+    private static $_bearerToken;
+
     /**
      * @var string
      */
-    protected $logFileName = 'tendopay.log';
+    protected $_logFileName = 'tendopay.log';
 
     /**
-     * @var bool
+     * @var
      */
-    protected $isDebugEnabled;
-
-    /**
-     * @var \GuzzleHttp\Client $client a http client to make the API calls
-     */
-    private $client;
-
+    protected $_isDebugEnabled;
 
     const PAYMANET_FAILED_QUERY_PARAM = 'tendopay_payment_failed';
     const METHOD_WPS = 'tendopay';
@@ -52,9 +60,6 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     const SANDBOX_DESCRIPTION_ENDPOINT_URI = 'payments/api/v1/paymentDescription';
     const SANDBOX_BEARER_TOKEN_ENDPOINT_URI = 'oauth/token';
 
-    const TENDOPAY_ICON = 'https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-128x128.png';
-    const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
-
     /**
      * Below constant names are used as keys of data send to or received from TP API
      */
@@ -81,7 +86,8 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     const ORDER_DESC_PROPNAME = 'order';
 
     /**
-     * Below constants are the keys of description object's line items that are being sent during request to Description Endpoint
+     * Below constants are the keys of description object's line items that
+     * are being sent during request to Description Endpoint
      */
     const TITLE_ITEM_PROPNAME = 'title';
     const DESC_ITEM_PROPNAME = 'description';
@@ -89,7 +95,8 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     const PRICE_ITEM_PROPNAME = 'price';
 
     /**
-     * Below constants are the keys of description object's meta info that is being sent during request to Description Endpoint
+     * Below constants are the keys of description object's meta info that
+     * is being sent during request to Description Endpoint
      */
     const CURRENCY_META_PROPNAME = 'currency';
     const THOUSAND_SEP_META_PROPNAME = 'thousand_separator';
@@ -97,19 +104,26 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     const VERSION_META_PROPNAME = 'version';
 
     /**
-     * Below constants are the keys of description object's order details that are being sent during request to Description Endpoint
+     * Below constants are the keys of description object's order details that
+     * are being sent during request to Description Endpoint
      */
     const ID_ORDER_PROPNAME = 'id';
     const SUBTOTAL_ORDER_PROPNAME = 'subtotal';
     const TOTAL_ORDER_PROPNAME = 'total';
 
-    const TEMPLATE_OPTION_TITLE_CUSTOM = 'tendopay_front/payment/title.phtml';
+    const TEMPLATE_OPTION_TITLE_CUSTOM = 'tendopay/payment/title.phtml';
 
+    /**
+     * @return string
+     */
     public function getTendopayCheckoutTitle()
     {
         return self::TEMPLATE_OPTION_TITLE_CUSTOM;
     }
 
+    /**
+     * @return string
+     */
     public function getTendopayMethodCode()
     {
         return self::METHOD_WPS;
@@ -202,10 +216,11 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function isSandboxEnabled()
     {
         $base = $this->getTendopayStandardModel();
-        $is_sanbox_enabled = $this->getConfigValues($base->getAPIModeConfigField());
-        if($is_sanbox_enabled=="sandbox"){
+        $isSanboxEnabled = $this->getConfigValues($base->getAPIModeConfigField());
+        if ($isSanboxEnabled == "sandbox") {
             return true;
         }
+
         return false;
     }
 
@@ -330,7 +345,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCheckoutUrl()
     {
@@ -338,7 +353,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getRedirectUrl()
     {
@@ -346,25 +361,31 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getPaymentVerificationUrl()
     {
         return Mage::getUrl('tendopay/cart', array('action' => 'verifypayment'));
     }
 
+    /**
+     * @return mixed
+     */
     public function getCustomerSession()
     {
         return Mage::getSingleton('customer/session');
     }
 
+    /**
+     * @return mixed
+     */
     public function getTendopayStandardModel()
     {
         return Mage::getModel('tendopay/standard');
     }
 
     /**
-     * @return Mage_Core_Model_Abstract
+     * @return mixed
      */
     public function getCheckoutSession()
     {
@@ -373,7 +394,6 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param $message
-     * @throws Mage_Core_Exception
      */
     public function setException($message)
     {
@@ -382,17 +402,14 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param $message
-     * @throws Mage_Core_Exception
-     * @throws Afterpay_Afterpay_Exception
      */
     public function throwException($message)
     {
-        throw Mage::exception('TendoPay_TendopayPayment', $message);
+        throw Mage::exception('Mage_Core', $message);
     }
 
     /**
      * @param $message
-     * @throws Mage_Core_Exception
      */
     public function addTendopayError($message)
     {
@@ -418,12 +435,13 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * @param $quoteId
-     * @return Mage_Core_Model_Abstract
+     * @return mixed
      */
     protected function _getQuote($quoteId)
     {
@@ -431,7 +449,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return false|Mage_Core_Model_Abstract
+     * @return mixed
      */
     public function getApiAdapter()
     {
@@ -448,11 +466,18 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return $base->getConfigData($field);
     }
 
+    /**
+     * @return string
+     */
     public function getModuleVersion()
     {
         return (string)Mage::getConfig()->getModuleConfig('TendoPay_TendopayPayment')->version;
     }
 
+    /**
+     * @param $string
+     * @return null|string|string[]
+     */
     public function _cleanup_string($string)
     {
         $result = preg_replace("/[^a-zA-Z0-9]+/", "", $string);
@@ -469,7 +494,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function log($message, $level = null)
     {
         if ($this->isDebugMode() || $level != Zend_Log::DEBUG) {
-            Mage::log($message, $level, $this->logFileName);
+            Mage::log($message, $level, $this->_logFileName);
         }
     }
 
@@ -478,44 +503,56 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isDebugMode()
     {
-        if ($this->isDebugEnabled === null) {
-            $this->isDebugEnabled = Mage::getStoreConfigFlag('payment/tendopay/debug');
+        if ($this->_isDebugEnabled === null) {
+            $this->_isDebugEnabled = Mage::getStoreConfigFlag('payment/tendopay/debug');
         }
 
-        return $this->isDebugEnabled;
+        return $this->_isDebugEnabled;
     }
 
+    /**
+     * @param array $data
+     * @return string
+     */
     public function calculate(array $data)
     {
         $base = $this->getTendopayStandardModel();
         $secret = $this->getConfigValues($base->getAPIMerchantSecretConfigField());
 
-        $data = array_map(function ($value) {
-            return trim($value);
-        }, $data);
+        $data = array_map(
+            function ($value) {
+                return trim($value);
+            }, $data
+        );
 
-        $hash_keys_exclusion_list = [$this->getHashParam()];
-
-        $exclusion_list = $hash_keys_exclusion_list;
-
-        $data = array_filter($data, function ($value, $key) use ($exclusion_list) {
-            return !in_array($key, $exclusion_list) && !empty($value);
-        }, ARRAY_FILTER_USE_BOTH);
+        $hashKeysExclusionList = array($this->getHashParam());
+        $exclusionList = $hashKeysExclusionList;
+        $data = $this->arrayFilterKeys($data, $exclusionList);
 
         ksort($data);
         $message = join("", $data);
-
         return hash_hmac($this->get_hash_algorithm(), $message, $secret, false);
     }
 
-    /**
+    public function arrayFilterKeys($array, $exclusionList)
+    {
+        $newArray=array();
+          foreach ($array as $key=>$value) {
+              if (!in_array($key, $exclusionList) && !empty($value)) {
+                  $newArray[$key]=$value;
+              }
+          }
+
+          return $newArray;
+    }
+
+
+/**
      * Performs the actual API call.
-     *
-     * @param string $url url of the endpoint
+     * @param $url $url url of the endpoint
      * @param array $data data to be posted to the endpoint
      *
-     * @return Response response from the API call
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return TendoPay_TendopayPayment_Helper_Response response from the API call
      */
     public function doCall($url, array $data)
     {
@@ -523,78 +560,76 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
         $merchantId = $this->getConfigValues($base->getAPIMerchantIDConfigField());
         $data[$this->getVendorIdParam()] = $merchantId;
         $data[$this->getHashParam()] = $this->calculate($data);
-        
-        $keyOrder = ['tendopay_tendo_pay_vendor_id','tendopay_amount','tendopay_customer_reference_1','tendopay_customer_reference_2','tendopay_hash'];
-        $new_sort=array();
-        foreach($keyOrder as $single_key) {
-            $new_sort[$single_key]= $data[$single_key];
-        }
 
-        $headers = [
-            'headers' => [
+        $headers = array(
+            'headers' => array(
                 'Authorization' => 'Bearer ' . $this->get_bearer_token(),
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'X-Using' => 'TendoPay Magento1 Extension',
-            ],
-            'json' => $new_sort
-        ];
+            ),
+            'json' => $data
+        );
 
-        $this->client = new GuzzleHttp\Client([
-            'base_uri' => $this->get_base_api_url()
-        ]);
+        $this->client = new GuzzleHttp\Client(
+            array(
+                'base_uri' => $this->get_base_api_url()
+            )
+        );
         $response = $this->client->request('POST', $url, $headers);
-
-        return new TendoPay_TendopayPayment_Helper_Response( $response->getStatusCode(), $response->getBody());
+        return new TendoPay_TendopayPayment_Helper_Response($response->getStatusCode(), $response->getBody());
     }
 
+    /**
+     * @return mixed
+     */
     private function get_bearer_token()
     {
         $base = $this->getTendopayStandardModel();
-        if ( self::$bearer_token === null ) {
-            $BearerTokenConfigField = $this->getConfigValues($base->getBearerTokenConfigField());
-            self::$bearer_token = $BearerTokenConfigField;
+        if (self::$_bearerToken === null) {
+            $bearerTokenConfigField = $this->getConfigValues($base->getBearerTokenConfigField());
+            self::$_bearerToken = $bearerTokenConfigField;
         }
 
-        $bearer_expiration_timestamp = - 1;
-        if ( self::$bearer_token !== null && property_exists( self::$bearer_token, 'expiration_timestamp' ) ) {
-            $bearer_expiration_timestamp = self::$bearer_token->expiration_timestamp;
+        $bearerExpirationTimestamp = -1;
+        if (self::$_bearerToken !== null && property_exists(self::$_bearerToken, 'expiration_timestamp')) {
+            $bearerExpirationTimestamp = self::$_bearerToken->expiration_timestamp;
         }
 
-        $current_timestamp = Mage::getModel('core/date')->timestamp(time());
-
-        if ( $bearer_expiration_timestamp <= $current_timestamp - 30 ) {
-            $headers = [
-                'headers' => [
+        $currentTimestamp = Mage::getSingleton('core/date')->gmtTimestamp();
+        if ($bearerExpirationTimestamp <= $currentTimestamp - 30) {
+            $headers = array(
+                'headers' => array(
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
                     'X-Using' => 'TendoPay Magento1 Extension'
-                ],
-                'json' => [
+                ),
+                'json' => array(
                     "grant_type" => "client_credentials",
                     "client_id" => $this->getConfigValues($base->getAPIClientIdConfigField()),
                     "client_secret" => $this->getConfigValues($base->getAPIClientSecretConfigField())
-                ]
-            ];
+                )
+            );
 
-            $this->client = new GuzzleHttp\Client([
-                'base_uri' => $this->get_base_api_url()
-            ]);
+            $this->client = new GuzzleHttp\Client(
+                array(
+                    'base_uri' => $this->get_base_api_url()
+                )
+            );
             $response = $this->client->request('POST', $this->get_bearer_token_endpoint_uri(), $headers);
-            $response_body = (string)$response->getBody();
-            $response_body = json_decode($response_body);
+            $responseBody = (string)$response->getBody();
+            $responseBody = json_decode($responseBody);
 
+            self::$_bearerToken = new \stdClass();
+            self::$_bearerToken->expiration_timestamp = $responseBody->expires_in + $currentTimestamp;
+            self::$_bearerToken->token = $responseBody->access_token;
 
-
-            self::$bearer_token = new \stdClass();
-            self::$bearer_token->expiration_timestamp = $response_body->expires_in + $current_timestamp;
-            self::$bearer_token->token = $response_body->access_token;
-
-
-
-            Mage::getConfig()->saveConfig('payment/tendopay/bearer_token', serialize(self::$bearer_token), 'default', 0);
+            Mage::getConfig()->saveConfig(
+                'payment/tendopay/bearer_token',
+                serialize(self::$_bearerToken), 'default', 0
+            );
         }
 
-        return self::$bearer_token->token;
+        return self::$_bearerToken->token;
     }
 }

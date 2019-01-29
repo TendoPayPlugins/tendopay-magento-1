@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * TendoPay
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ *
+ * @category   TendoPay
+ * @package    TendoPay_TendopayPayment
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html
+ */
+-->
 <config>
-   <sections>
+    <sections>
         <payment>
             <groups>
                 <tendopay translate="label" module="tendopay">
@@ -33,7 +45,7 @@
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </message>
                         <api_merchant_id translate="label">
                             <label>Merchant ID</label>
@@ -95,7 +107,7 @@
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </debug>
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
@@ -127,15 +139,9 @@
                         <bearer_token translate="label">
                             <label>Bearer token</label>
                             <frontend_type>label</frontend_type>
-                        <!--    <frontend_model>tendopay/bearertoken_renderer</frontend_model>&lt;!&ndash; this is it &ndash;&gt;
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <button_label>Bearer token</button_label>
                             <sort_order>16</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>-->
-                            <button_label>Add current IP</button_label>
-                            <sort_order>16</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </bearer_token>
