@@ -38,6 +38,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </title>
                         <message translate="label">
                             <label>Displayed Message</label>
@@ -46,6 +49,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </message>
                         <api_merchant_id translate="label">
                             <label>Merchant ID</label>
@@ -54,6 +60,10 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </api_merchant_id>
                         <api_merchant_secret translate="label">
                             <label>Merchant Secret Key</label>
@@ -63,6 +73,10 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </api_merchant_secret>
                         <api_client_id translate="label">
                             <label>API Client ID</label>
@@ -71,6 +85,10 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </api_client_id>
                         <api_client_secret translate="label">
                             <label>API Client Secret</label>
@@ -80,6 +98,10 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </api_client_secret>
                         <order_status translate="label">
                             <label>New order status</label>
@@ -89,6 +111,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </order_status>
                         <api_mode translate="label">
                             <label>Sandbox Mode</label>
@@ -98,6 +123,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </api_mode>
                         <debug translate="label">
                             <label>Debug</label>
@@ -108,6 +136,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </debug>
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
@@ -117,6 +148,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </allowspecific>
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
@@ -126,6 +160,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </specificcountry>
                         <sort_order translate="label">
                             <label>Sort Order</label>
@@ -135,6 +172,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <frontend_class>validate-number</frontend_class>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </sort_order>
                         <bearer_token translate="label">
                             <label>Bearer token</label>
@@ -144,6 +184,9 @@
                             <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
                         </bearer_token>
                     </fields>
                 </tendopay>

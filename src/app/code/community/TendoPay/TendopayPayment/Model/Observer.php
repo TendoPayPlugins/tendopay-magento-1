@@ -91,9 +91,6 @@ class TendoPay_TendopayPayment_Model_Observer
                 case 'maximum_purchase':
                     $notice = __($extra);
                     $tendopayHelperData->addTendopayError($notice);
-                    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
-                    Mage::app()->getResponse()->sendResponse();
-                    exit;
             }
         }
     }

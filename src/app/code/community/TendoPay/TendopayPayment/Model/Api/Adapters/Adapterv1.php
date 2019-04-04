@@ -68,7 +68,7 @@ class TendoPay_TendopayPayment_Model_Api_Adapters_Adapterv1
 
         $params['order'] = array(
             'id' => (string)Mage::app()->getStore()->getCurrentCurrencyCode(),
-            'shipping' => round((float)$shippingAddress->getShippingInclTax(), $precision),
+            'shipping' => ($shippingAddress) ? round((float)$shippingAddress->getShippingInclTax(), $precision) : 0,
             'subtotal' => $object->getSubtotal(),
             'total' => round((float)$object->getGrandTotal(), $precision)
         );

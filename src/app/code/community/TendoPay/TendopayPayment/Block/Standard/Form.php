@@ -27,14 +27,29 @@ class TendoPay_TendopayPayment_Block_Standard_Form extends Mage_Payment_Block_Fo
     protected function _construct()
     {
         parent::_construct();
+
+        $visibility = false;
         $tendopayHelperData = Mage::helper('tendopay');
-        // logic borrowed from Mage_Paypal_Block_Standard_form
-        $block = Mage::getConfig()->getBlockClassName('core/template');
-        $block = new $block;
-        $block->setTemplateHelper($this);
-        $block->setTemplate($tendopayHelperData->getTendopayCheckoutTitle());
-        $this->setTemplate('tendopay/payment/redirect.phtml');
-        $this->setMethodTitle('')->setMethodLabelAfterHtml($block->toHtml());
+        $base = Mage::getModel('tendopay/standard');
+        $merchantId = $tendopayHelperData->getConfigValues($base->getAPIMerchantIDConfigField());
+
+        if (!empty($tendopayHelperData->getConfigValues($base->getAPIMerchantIDConfigField())) &&
+            !empty($tendopayHelperData->getConfigValues($base->getAPIMerchantSecretConfigField())) &&
+            !empty($tendopayHelperData->getConfigValues($base->getAPIClientIdConfigField())) &&
+            !empty($tendopayHelperData->getConfigValues($base->getAPIClientSecretConfigField()))
+        ) {
+            $visibility = true;
+        }
+        if($visibility) {
+            $tendopayHelperData = Mage::helper('tendopay');
+            // logic borrowed from Mage_Paypal_Block_Standard_form
+            $block = Mage::getConfig()->getBlockClassName('core/template');
+            $block = new $block;
+            $block->setTemplateHelper($this);
+            $block->setTemplate($tendopayHelperData->getTendopayCheckoutTitle());
+            $this->setTemplate('tendopay/payment/redirect.phtml');
+            $this->setMethodTitle('')->setMethodLabelAfterHtml($block->toHtml());
+        }
     }
 
     /**
