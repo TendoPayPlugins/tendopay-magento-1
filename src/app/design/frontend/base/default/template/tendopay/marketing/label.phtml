@@ -1,0 +1,57 @@
+<?php
+$tendoModel = Mage::getModel('tendopay/standard');
+$tendoHelper = Mage::helper('tendopay');
+$aPIClientSecretConfigFieldValue = $tendoModel->getConfigData($tendoModel->getTendoExampleInstallmentsEnabled());
+$aPIEnabledFieldValue = $tendoModel->getConfigData($tendoModel->getAPIEnabledField());
+if ($aPIClientSecretConfigFieldValue === "1" && $aPIEnabledFieldValue ==="1") {
+    $_product = $this->getProduct();
+    ?>
+    <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;">
+            <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
+                <?php echo $this->__('Loading the best price for you') ?>
+                <div class="tp-loader">
+                    <div class="tp-loader-dots">
+                        <div class="tp-loader-dot"></div>
+                        <div class="tp-loader-dot"></div>
+                        <div class="tp-loader-dot"></div>
+                    </div>
+                </div>
+            </span>
+        <span id="tendopay_example-payment__received" class="tendopay_example-payment__received"></span>
+
+        <img src="<?php echo $tendoHelper->getTendopayLogoBlue(); ?>"
+             class="tendopay__example-payment__logo">
+
+        <br><a class="tendopay__example-payment__disclaimer"
+               style="font-size: 0.8em;display: block;color: #999;"><?php echo $this->__('(See if you qualify here)'); ?></a>
+    </div>
+    <script>
+        (function ($) {
+            $.ajax('<?php echo Mage::getUrl('tendopay/standard/examplePayment', array('price' => $_product->getFinalPrice())); ?>')
+                .done(function (data) {
+                    $("#tendopay_example-payment__loading").css({display: "none"});
+                    if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
+                        $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
+                    } else {
+                        $(".tendopay__example-payment").hide();
+                    }
+                });
+
+            $('body').append(
+                '<div class="tendopay__popup__container" style="display: none;">' +
+                '<div class="tendopay__popup__iframe-wrapper">' +
+                '<div class="tendopay__popup__close"></div>' +
+                '<iframe src="<?php echo Mage::getUrl('tendopay/standard/popupbox'); ?>" class="tendopay__popup__iframe"></iframe>' +
+                '</div>' +
+                '</div>');
+            $('.tendopay__popup__close').click(function () {
+                $('.tendopay__popup__container').toggle();
+            });
+            $('.tendopay__example-payment__disclaimer, .tendopay_example-payment__received, .tendopay__example-payment__logo').click(function () {
+                $('.tendopay__popup__container').show();
+            });
+        })(jQuery);
+    </script>
+    <?php
+}
+?>

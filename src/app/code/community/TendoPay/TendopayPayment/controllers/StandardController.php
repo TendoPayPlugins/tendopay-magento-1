@@ -262,6 +262,7 @@ class TendoPay_TendopayPayment_StandardController extends Mage_Core_Controller_F
      * @param $order
      * @param array $data
      * @return bool
+     * @throws Mage_Core_Exception
      */
     public function verify_payment($order, array $data)
     {
@@ -310,5 +311,34 @@ class TendoPay_TendopayPayment_StandardController extends Mage_Core_Controller_F
         $order->save();
 
         return $json->{$helper->getStatusIDParam()} === 'success';
+    }
+
+    /**
+     * @throws Mage_Core_Model_Store_Exception
+     */
+    public function examplePaymentAction()
+    {
+        $returnJson = array();
+        $price = $this->getRequest()->getParam("price");
+        $example_installments_retriever = new TendoPay_TendopayPayment_Helper_InstallmentsRetriever($price);
+        $get_example_payment = $example_installments_retriever->get_example_payment($price);
+        if($get_example_payment!=""){
+            $store = Mage::app()->getStore(null);
+            $currency = $store->getCurrentCurrency();
+            $get_example_payment = $currency->formatPrecision($get_example_payment, 0, array(), true, false);
+            $returnJson['data'] = [
+                'response' => $this->__('Or as low as <strong>%s/installment</strong> with', $get_example_payment)
+            ];
+            $returnJson['success'] = true;
+        }
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($returnJson));
+    }
+
+
+    public function popupboxAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
     }
 }

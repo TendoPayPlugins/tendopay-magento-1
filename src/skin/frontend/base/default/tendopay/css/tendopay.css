@@ -29,3 +29,140 @@ dt:not(#dt_method_tendopay) #p_method_tendopay{
     display: block;
     margin-left: 0;
 }
+
+.tendopay__example-payment {
+    clear: both;
+    padding: 1rem 0;
+}
+
+.tendopay__example-payment__logo {
+    display: initial;
+    vertical-align: middle;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    width: 95px;
+    margin-top: -3px;
+    cursor: pointer;
+}
+
+.tendopay__example-payment__disclaimer {
+    font-size: 0.8em;
+    display: block;
+    color: #999;
+}
+
+.tp-loader {
+    display: inline-block;
+}
+
+.tp-loader-dots {
+    display: flex;
+}
+
+.tp-loader-dot {
+    margin: 2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ffc4;
+    transform: scale(0.5);
+    animation: scale-dot 1.2s ease-out infinite;
+}
+
+.tp-loader-dot:nth-of-type(2) {
+    animation-delay: 0.2s;
+}
+
+.tp-loader-dot:nth-of-type(3) {
+    animation-delay: 0.3s;
+}
+
+.tp-loader-dot:nth-of-type(4) {
+    animation-delay: 0.4s;
+}
+
+.tp-loader-dot:nth-of-type(5) {
+    animation-delay: 0.5s;
+}
+
+@keyframes scale-dot {
+    0% {
+        transform: scale(0.5);
+    }
+    25% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(0.5);
+    }
+    100% {
+        transform: scale(0.5);
+    }
+}
+
+.tendopay_example-payment__received {
+    display: none;
+    cursor: pointer;
+}
+.tendopay__example-payment__disclaimer,
+.what_is_tenndopay{
+    cursor: pointer;
+}
+
+.tendopay__popup__container {
+    background: rgba(0,0,0,0.2);
+    position: fixed;
+    z-index: 1000000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.tendopay__popup__iframe-wrapper {
+    max-width: 875px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+    background-color: white;
+}
+
+.tendopay__popup__iframe-wrapper, #tendopay-popup {
+    max-height: 760px;
+}
+
+.tendopay__popup__close {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    background: white url(../images/close.svg) no-repeat center;
+    background-size: 50%;
+    cursor: pointer;
+    margin: 0 0 0 auto;
+}
+
+.tendopay__popup__iframe {
+    border: none;
+    width: 100%;
+    background: white;
+    height: 100%
+}
+
+@media screen and (min-width: 768px) {
+    .tendopay__popup__container {
+        padding: 2rem;
+    }
+
+    .tendopay__popup__close {
+        margin: 0.25rem 0 0.25rem auto;
+    }
+
+    .tendopay__popup__iframe {
+        height: calc(100% - 2.5rem);
+    }
+
+    .tendopay__popup__iframe-wrapper {
+        background-color: unset;
+    }
+}

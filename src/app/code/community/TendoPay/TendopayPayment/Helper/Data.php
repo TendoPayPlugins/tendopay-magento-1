@@ -113,6 +113,31 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     const TEMPLATE_OPTION_TITLE_CUSTOM = 'tendopay/payment/title.phtml';
 
+
+    /**
+     * Marketing label constants
+     */
+    const TENDOPAY_LOGO_BLUE = 'https://s3-ap-southeast-1.amazonaws.com/tendo-static/logo/tp-logo-example-payments.png';
+    const TENDOPAY_MARKETING = 'https://app.tendopay.ph/register';
+    const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s";
+    const REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT = 'installment_amount';
+
+    /**
+     * @return string
+     */
+    public function getRepaymentCalculatorInstallmentAmount()
+    {
+        return self::REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepaymentScheduleApiEndpointUri()
+    {
+        return self::REPAYMENT_SCHEDULE_API_ENDPOINT_URI;
+    }
+
     /**
      * @return string
      */
@@ -207,6 +232,17 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function get_bearer_token_endpoint_uri()
     {
         return $this->isSandboxEnabled() ? self::SANDBOX_BEARER_TOKEN_ENDPOINT_URI : self::BEARER_TOKEN_ENDPOINT_URI;
+    }
+
+    /**
+     * Gets the bearer token endpoint uri. It checks whether to use SANDBOX URI or Production URI.
+     *
+     * @return string bearer token endpoint uri
+     */
+    public function get_repayment_calculator_api_endpoint_url()
+    {
+        $base_url = $this->isSandboxEnabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
+        return $base_url . "/" . self::REPAYMENT_SCHEDULE_API_ENDPOINT_URI;
     }
 
     /**
@@ -342,6 +378,22 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function PaymentFailedQueryParam()
     {
         return self::PAYMANET_FAILED_QUERY_PARAM;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTendopayLogoBlue()
+    {
+        return self::TENDOPAY_LOGO_BLUE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTendopayMarketing()
+    {
+        return self::TENDOPAY_MARKETING;
     }
 
     /**
@@ -576,7 +628,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'base_uri' => $this->get_base_api_url()
             )
         );
-        $response = $this->client->request('POST', $url, $headers);
+        $response = $this->client->request($url, $headers);
         return new TendoPay_TendopayPayment_Helper_Response($response->getStatusCode(), $response->getBody());
     }
 
@@ -631,5 +683,15 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return self::$_bearerToken->token;
+    }
+
+
+    public function get_default_headers() {
+        return [
+            'Authorization' => 'Bearer ' . $this->get_bearer_token(),
+            'Accept'        => 'application/json',
+            'Content-Type'  => 'application/json',
+            'X-Using'       => 'TendoPay Magento1 Plugin',
+        ];
     }
 }

@@ -14,7 +14,7 @@
 <config>
     <modules>
         <TendoPay_TendopayPayment>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </TendoPay_TendopayPayment>
     </modules>
     <tendopay>
@@ -118,10 +118,11 @@
         <payment>
             <tendopay>
                 <active>1</active>
-                <title>TendoPay - Buy now, pay later with TendoPay</title>
+                <title>Installments with TendoPay</title>
                 <message><![CDATA[<p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#" class="privacy-policy-link" target="_blank">privacy policy</a>.</p>]]></message>
                 <model>tendopay/standard</model>
                 <order_status>processing</order_status>
+                <tendo_example_installments_enabled>1</tendo_example_installments_enabled>
                 <api_mode>sandbox</api_mode>
                 <debug>1</debug>
                 <allowspecific>0</allowspecific>

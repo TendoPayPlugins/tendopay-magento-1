@@ -79,9 +79,11 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     const WEB_URL_CONFIG_PATH_PATTERN = 'tendopay/api/{prefix}_web_url';
     const API_MERCHANT_ID_CONFIG_FIELD = 'api_merchant_id';
     const API_BEARER_TOKEN_FIELD = 'bearer_token';
+    const PAYMENT_GATEWAY_TITLE = 'title';
     const API_MERCHANT_SECRET_CONFIG_FIELD = 'api_merchant_secret';
     const API_CLIENT_ID_CONFIG_FIELD = 'api_client_id';
     const API_CLIENT_SECRET_CONFIG_FIELD = 'api_client_secret';
+    const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE = 'tendo_example_installments_enabled';
 
     /* Order payment statuses */
     const RESPONSE_STATUS_APPROVED = 'APPROVED';
@@ -182,6 +184,14 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     /**
      * @return string
      */
+    public static function getPaymentGatewayTitle()
+    {
+        return self::PAYMENT_GATEWAY_TITLE;
+    }
+
+    /**
+     * @return string
+     */
     public static function getAPIClientIdConfigField()
     {
         return self::API_CLIENT_ID_CONFIG_FIELD;
@@ -196,8 +206,17 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
+     * @return string
+     */
+    public static function getTendoExampleInstallmentsEnabled()
+    {
+        return self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE;
+    }
+
+    /**
      * @param $authToken
      * @return array
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getStandardCheckoutFormFields($authToken)
     {
@@ -224,7 +243,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * @return mixed
+     * @return false|Mage_Core_Model_Abstract
      */
     protected function getLastRealOrder()
     {
@@ -240,7 +259,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrderPlaceRedirectUrl()
     {

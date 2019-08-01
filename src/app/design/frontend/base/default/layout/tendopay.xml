@@ -17,4 +17,20 @@
             <action method="addItem"><type>skin_css</type><name>tendopay/css/tendopay.css</name></action>
         </reference>
     </default>
+    <catalog_product_view>
+        <reference name="product.info">
+            <block type="catalog/product_view" name="product.marketing.label" as="marketing_label" template="tendopay/marketing/label.phtml"/>
+        </reference>
+    </catalog_product_view>
+    <tendopay_standard_popupbox>
+        <label>Tendopay Marketing Popup</label>
+        <block type="page/html" name="root" output="toHtml" template="tendopay/marketing/ajax.phtml">
+            <block type="page/html_head" name="head" as="head">
+                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addItem"><type>skin_css</type><name>tendopay/css/marketing/popup-box.css</name></action>
+            </block>
+            <block type="core/template" name="content" as="content" template="tendopay/marketing/popupbox.phtml"/>
+        </block>
+    </tendopay_standard_popupbox>
 </layout> 

@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    position: relative;
+}
+
+#tendopay-popup {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    max-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    /*-webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -ms-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.mt-3 {
+    margin-top: 3rem;
+}
+
+.p-1 {
+    padding: 1rem;
+}
+
+.p-2 {
+    padding: 2rem;
+}
+
+.p-3 {
+    padding: 3rem;
+}
+
+.px-2 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.px-3 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.px-4 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.pt-2 {
+    padding-top: 2rem;
+}
+
+.img-logo {
+    max-width: 195px;
+    height: auto;
+}
+
+.img-icon {
+    max-width: 140px;
+    height: auto;
+}
+
+.btn {
+    border: none;
+    color: #000000;
+    padding: 20px 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #00FFC4;
+}
+
+.font-blue-color {
+    color: #25A5F1;
+}
+
+.font-grey-color {
+    color: #a0a5aa;
+}
+
+.p-font-text {
+    font-size: 14px;
+}
+
+.font-weight-500 {
+    font-weight: 500;
+}
+
+.font-family-verdana {
+    font-family: verdana, sans-serif;
+}
+
+.background-color-lightgrey {
+    background-color: rgba(185, 202, 218, 0.1);
+}
+
+footer {
+    background-color: rgba(185, 202, 218, 0.4);
+    height: 100%;
+}
+
+.heading-text {
+    font-size: 24px;
+    letter-spacing: -1px;
+    margin: 10px;
+}
+
+.footer {
+    color: #000000;
+    text-decoration: none;
+    height: auto;
+    padding: 20px 6rem 20px 6rem;
+    letter-spacing: 0.50px;
+    font-size: 12px;
+    opacity: 0.5;
+}
+
+.page-container {
+    position: relative;
+}
+
+.page-container p {
+    margin-bottom: 0;
+}
+
+.page-container a {
+    margin: 2.33rem auto;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.d-md-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.row {
+    flex-direction: row;
+}
+
+/**** Mobile Device ****/
+
+@media (max-width: 600px) {
+
+    .pb-1 {
+        padding-bottom: 1rem;
+    }
+
+    .d-block {
+        display: block;
+    }
+
+    .img-logo {
+        width: 40vw;
+    }
+
+    .heading-text {
+        font-size: 25px;
+    }
+
+    .footer {
+        font-size: 10px;
+        padding: 20px 3rem 20px 3rem;
+    }
+
+    .px-sm-0 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    .img-icon {
+        width: 90px;
+    }
+
+    .h3-font-size {
+        font-size: 15px;
+    }
+
+    .p-font-size {
+        font-size: 13px;
+    }
+
+}
