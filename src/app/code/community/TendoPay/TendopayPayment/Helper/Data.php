@@ -676,10 +676,13 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
             self::$_bearerToken->expiration_timestamp = $responseBody->expires_in + $currentTimestamp;
             self::$_bearerToken->token = $responseBody->access_token;
 
+            $obj = new Zend_Serializer_Adapter_PhpSerialize();
+
             Mage::getConfig()->saveConfig(
                 'payment/tendopay/bearer_token',
-                serialize(self::$_bearerToken), 'default', 0
+                $obj->serialize(self::$_bearerToken), 'default', 0
             );
+
         }
 
         return self::$_bearerToken->token;
