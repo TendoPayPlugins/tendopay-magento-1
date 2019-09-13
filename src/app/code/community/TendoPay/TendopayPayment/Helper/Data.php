@@ -628,7 +628,7 @@ class TendoPay_TendopayPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'base_uri' => $this->get_base_api_url()
             )
         );
-        $response = $this->client->request($url, $headers);
+        $response = $this->client->request("POST", $url, $headers);
         return new TendoPay_TendopayPayment_Helper_Response($response->getStatusCode(), $response->getBody());
     }
 
