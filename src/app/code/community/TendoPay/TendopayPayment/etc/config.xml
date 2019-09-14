@@ -14,7 +14,7 @@
 <config>
     <modules>
         <TendoPay_TendopayPayment>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </TendoPay_TendopayPayment>
     </modules>
     <tendopay>
