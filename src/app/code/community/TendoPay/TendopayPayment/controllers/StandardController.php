@@ -192,6 +192,9 @@ class TendoPay_TendopayPayment_StandardController extends Mage_Core_Controller_F
                     case TendoPay_TendopayPayment_Model_Standard::RESPONSE_STATUS_PROCESSING:
                         $this->preVerifyPaymentAction($order, $postedData);
                         break;
+                    case TendoPay_TendopayPayment_Model_Standard::RESPONSE_STATUS_PENDING:
+                        $this->preVerifyPaymentAction($order, $postedData);
+                        break;
                     case TendoPay_TendopayPayment_Model_Standard::RESPONSE_STATUS_DECLINED:
                         $this->cancelAction();
                         $base->resetTransactionToken();

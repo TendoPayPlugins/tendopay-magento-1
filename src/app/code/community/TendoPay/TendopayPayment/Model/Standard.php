@@ -87,7 +87,7 @@ class TendoPay_TendopayPayment_Model_Standard extends Mage_Payment_Model_Method_
 
     /* Order payment statuses */
     const RESPONSE_STATUS_APPROVED = 'APPROVED';
-    const RESPONSE_STATUS_PENDING = 'PENDING';
+    const RESPONSE_STATUS_PENDING = 'pending';
     const RESPONSE_STATUS_FAILED = 'FAILED';
     const RESPONSE_STATUS_DECLINED = 'DECLINED';
     const RESPONSE_STATUS_PROCESSING = 'processing';
